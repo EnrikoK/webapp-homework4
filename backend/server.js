@@ -28,7 +28,10 @@ app.get('/', (req, res) => {
       res.json(data);
   
 });
+
+
 app.post('/api/posts', async(req, res) => {
+    //TODO the endpoint needs to be secured
     try {
         console.log("a post request has arrived");
         const post = req.body;
@@ -43,6 +46,30 @@ app.post('/api/posts', async(req, res) => {
         console.error(err.message);
     }
 }); 
+
+app.get('/api/posts/all', async(req,res)=>{
+    //TODO endpoint needs to be secured
+    try{
+        const allPosts = await pool.query("SELECT * FROM posttable");
+        res.json({"posts":allPosts});
+    } catch (err){
+        res.json({"message":err.message});
+    }
+})
+
+app.get('/api/posts/:id', async(req,res)=>{
+    try{
+        const post = await pool.query("SELECT * FROM posttable WHERE id=$1",[req.params['id']])
+        if(post.rows.length==1){
+            res.json({"post":post});
+        }else{
+            res.status(404).json({"message":"Post with given id not found","error":true});
+        }
+    }catch (err){
+        res.status(500).json({"message":err.message})
+    }
+
+})
 
 //authentication enpoint
 app.get('/api/auth/authenticate', async(req,res)=>{

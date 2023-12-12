@@ -39,6 +39,8 @@ const createUserTabelQuery = `
             "password" VARCHAR(200) NOT NULL
         );`;
 
+
+
 // A function to execute the previous query   
 execute(createTblQuery).then(result => {
     if (result) {
@@ -51,5 +53,7 @@ execute(createUserTabelQuery).then(result =>{
         console.log("Users table created")
     }
 })
+
+
 
 module.exports = pool;

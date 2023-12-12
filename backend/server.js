@@ -36,7 +36,7 @@ app.post('/api/posts', async(req, res) => {
         console.log("a post request has arrived");
         const post = req.body;
         const newpost = await pool.query(
-            "INSERT INTO posttable(title, body, urllink) values ($1, $2, $3)    RETURNING*", [post.title, post.body, post.urllink]
+            "INSERT INTO posttable(title, body, isliked) values ($1, $2, $3)    RETURNING*", [post.title, post.body, false]
             // $1, $2, $3 are mapped to the first, second and third element of the passed array (post.title, post.body, post.urllink)
             // The RETURNING keyword in PostgreSQL allows returning a value from the insert or update statement.
             // using "*" after the RETURNING keyword in PostgreSQL, will return everything

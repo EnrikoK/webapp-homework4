@@ -29,7 +29,7 @@ const createTblQuery = `
 	    "id" SERIAL PRIMARY KEY,         
 	    "title" VARCHAR(200) NOT NULL,
 	    "body" VARCHAR(200) NOT NULL,
-        "urllink" VARCHAR(200)  
+        "isliked" BOOLEAN 
     );`;
 
 const createUserTabelQuery = `

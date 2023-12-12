@@ -40,7 +40,7 @@ import HeaderComponent from './components/HeaderComponent.vue';
     list-style: none;
     display: flex;
     justify-content: space-around;
-    width: 75%;
+    width: 100%;
   }
   nav{
     display: flex;

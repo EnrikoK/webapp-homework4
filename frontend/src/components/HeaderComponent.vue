@@ -6,10 +6,7 @@
             <RouterLink class="router-text" to="/">Home</RouterLink>
           </li>
           <li>
-            <RouterLink class="router-text" to="/login">Login</RouterLink>
-          </li>
-          <li>
-            <RouterLink class="router-text" to="/signup">Sign up</RouterLink>
+            <RouterLink class="router-text" to="/about">About</RouterLink>
           </li>
         </ul>
       </nav>  

@@ -56,7 +56,17 @@ export default{
             return
         }
         this.isError=false;
-        this.$router.push("/");
+        var data = {
+            email:this.emailInp,
+            password:this.passwordInp
+        }
+        fetch("http://localhost:3000/api/auth/signup",{
+            method:"POST",
+            headers:{"Content-Type":"application/json"},
+            credentials:"include",
+            body:JSON.stringify(data),
+        }).then(() => this.$router.push("/"))
+        
     }      
    } 
 }

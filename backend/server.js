@@ -18,18 +18,6 @@ const generateJWT = (id) => {
 };
 
 
-app.get('/', (req, res) => {
-    const data = {
-        message: 'Hello, this is your GET endpoint!',
-        timestamp: new Date().toISOString(),
-      };
-    
-      // Sending the JSON response
-      res.json(data);
-  
-});
-
-
 app.post('/api/posts', async(req, res) => {
     //TODO the endpoint needs to be secured
     try {
@@ -138,7 +126,6 @@ app.get('/api/auth/authenticate', async(req,res)=>{
 
 //signup endpoint
 app.post('/api/auth/signup', async(req,res)=>{
-    console.log("a post request has arrived");
     try{
         const { email ,password } = req.body;
 

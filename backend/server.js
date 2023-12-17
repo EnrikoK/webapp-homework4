@@ -35,13 +35,12 @@ app.post('/api/posts', async(req, res) => {
     try {
         console.log("a post request has arrived");
         const post = req.body;
+        var posted_on = new Date();
+        
         const newpost = await pool.query(
-            "INSERT INTO posttable(title, body, isliked) values ($1, $2, $3)    RETURNING*", [post.title, post.body, false]
-            // $1, $2, $3 are mapped to the first, second and third element of the passed array (post.title, post.body, post.urllink)
-            // The RETURNING keyword in PostgreSQL allows returning a value from the insert or update statement.
-            // using "*" after the RETURNING keyword in PostgreSQL, will return everything
+            "INSERT INTO posttable(title, body, isliked, posted_on) values ($1, $2, $3, $4)", [post.title, post.body, false, posted_on]
         );
-        res.json(newpost);
+        res.status(200).send();
     } catch (err) {
         console.error(err.message);
     }
@@ -50,7 +49,7 @@ app.post('/api/posts', async(req, res) => {
 app.get('/api/posts/all', async(req,res)=>{
     //TODO endpoint needs to be secured
     try{
-        const allPosts = await pool.query("SELECT * FROM posttable");
+        const allPosts = await pool.query("SELECT * FROM posttable ORDER BY posted_on;");
         res.json({"posts":allPosts});
     } catch (err){
         res.json({"message":err.message});
@@ -61,7 +60,7 @@ app.get('/api/posts/:id', async(req,res)=>{
     try{
         const post = await pool.query("SELECT * FROM posttable WHERE id=$1",[req.params['id']])
         if(post.rows.length==1){
-            res.json({"post":post});
+            res.json({post});
         }else{
             res.status(404).json({"message":"Post with given id not found","error":true});
         }
@@ -70,6 +69,46 @@ app.get('/api/posts/:id', async(req,res)=>{
     }
 
 })
+
+//update post endpoint
+
+app.put('/api/posts/:id', async(req,res)=>{
+    try{
+        if(req.body.body){
+            const text = req.body.body;
+            const id =req.params.id;
+            const post = await pool.query("UPDATE posttable SET body=$1 WHERE id=$2 RETURNING *;",[text,id])
+            res.status(200).json(post)
+
+        }else{
+            res.status(400)
+        }
+    }catch(err){
+        res.status(500).json(err.message)
+    }
+
+})
+
+//delete a post endpoint 
+
+app.delete('/api/posts/:id', async(req,res)=>{
+    try{
+        await pool.query("DELETE FROM posttable WHERE id=$1;",[req.params.id])
+        res.status(200).json({"success":true})
+    }catch(err){
+        res.status(500);
+    }
+})
+
+app.delete('/api/posts', async(req,res)=>{
+    try{
+        await pool.query('DELETE FROM posttable');
+        res.status(200).send();
+    }catch(err){
+        res.status(500).send();
+    }
+})
+
 
 //authentication enpoint
 app.get('/api/auth/authenticate', async(req,res)=>{

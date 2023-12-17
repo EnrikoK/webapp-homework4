@@ -5,7 +5,7 @@
     </div>
     
     
-    </template>
+</template>
     
     <script>
     import SingupComponent from "../components/SignupComponent.vue"

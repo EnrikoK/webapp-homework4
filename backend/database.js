@@ -29,7 +29,8 @@ const createTblQuery = `
 	    "id" SERIAL PRIMARY KEY,         
 	    "title" VARCHAR(200) NOT NULL,
 	    "body" VARCHAR(200) NOT NULL,
-        "isliked" BOOLEAN 
+        "isliked" BOOLEAN ,
+        "posted_on" DATE
     );`;
 
 const createUserTabelQuery = `

@@ -4,7 +4,7 @@
         <input type="email" required v-model="email">
         <label>password:</label>
         <input type="password" required v-model="password">
-        <button @click.prevent="login">Submit</button>
+        <button @click.prevent="login" class="submit-button">Submit</button>
         <RouterLink to="/signup">Don't have an account? Click here to sign up!</RouterLink>
     </form>
     <p class="login-error" v-if="loginError">Invalid login, please try again</p>
